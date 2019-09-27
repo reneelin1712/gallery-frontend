@@ -6,7 +6,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import InboxIcon from "@material-ui/icons/Inbox";
-import { UserContext } from '../Context'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,10 +18,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SelectedListItem() {
+export default function Themes() {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const username= useContext(UserContext)
+
 
   function handleListItemClick(event, index) {
     setSelectedIndex(index);
@@ -31,7 +31,7 @@ export default function SelectedListItem() {
     <div className={classes.root}>
       <h1>Themes</h1>
       <Divider />
-      {username}
+      
       <List component="nav" aria-label="main mailbox folders">
         <ListItem
           button

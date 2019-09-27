@@ -43,7 +43,7 @@ export default function Sell({userName}) {
   return (
     <>
       <Button color="inherit" onClick={handleClickOpen}>
-        Sell Your Painting
+        Share Your Painting
       </Button>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>

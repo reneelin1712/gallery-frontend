@@ -26,7 +26,7 @@ export default class Painting extends React.Component {
     }
 
   componentDidMount(){
-    fetch("http://104.154.46.103:8000/paintings")
+    fetch("http://localhost:8000/paintings")
         .then(res => res.json())
         .then(data => {
          this.setState({paintings:data})
@@ -53,7 +53,7 @@ export default class Painting extends React.Component {
               <>
                <Grid item xs={4}>
               <Card name={painting.name} description={painting.description}
-              id={painting._id} />
+              id={painting._id} imgUrl={painting.imageUrl}/>
             </Grid>
               </>)}
            

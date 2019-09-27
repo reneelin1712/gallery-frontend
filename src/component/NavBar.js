@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import Signup from "./SignUp";
 import Login from "./Login";
 import Sell from './Sell';
+import { UserContext } from '../Context'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -84,32 +86,47 @@ function HomeIcon(props) {
 }
 
 export default function NavBar({ onClickSignup }) {
+  const [userInfo, setUserInfo] = useContext(UserContext)
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [userName,setUserName] = useState("");
+  // const [userName,setUserName] = useState("");
 
-  function handleLogin(email,password){
+  function handleLogin(email, password) {
     console.log(email)
     let currentUser = {
       email: email,
       password: password
     }
 
-    fetch('http://104.154.46.103:8000/login',{
+    fetch('http://localhost:8000/login', {
       method: "POST",
       body: JSON.stringify(currentUser),
-      headers:{ 'Content-Type':'application/json'}
-    }).then(res=>res.json())
-    .then(data=>{
-      console.log(data);
-      data.message==="User and password is correct"?
-      setUserName(data.userName)
-      :alert("invalid email or password")
-    })
+      headers: { 'Content-Type': 'application/json' }
+    }).then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.message === "User and password is correct" ) {
+          setUserInfo({
+            "userName": data.userName,
+            "email": data.email,
+            "like": data.like
+          });
+
+        // } else if(!data.like){
+        //   setUserInfo({
+        //     "userName": data.userName,
+        //     "email": data.email,
+        //     "like": []
+        //   });
+        }else {
+          alert("invalid email or password")
+        }
+      })
   }
 
-  function hasSignup(username){
-    setUserName(username)
+  function hasSignup(username) {
+    setUserInfo({ "userName": username })
+
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -125,12 +142,16 @@ export default function NavBar({ onClickSignup }) {
     setOpen(false);
   }
 
-  function handleLogout(){
+  function handleLogout() {
     setOpen(false);
-    setUserName(" ")
+    setUserInfo({
+      userName: "",
+      userEmail: ""
+    })
   }
 
   return (
+
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -167,7 +188,7 @@ export default function NavBar({ onClickSignup }) {
             <Link className={classes.link} to="/paintings">
               Paintings
             </Link>
-            <Sell userName={userName} />
+            <Sell userName={userInfo.userName} />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -183,39 +204,39 @@ export default function NavBar({ onClickSignup }) {
             />
           </div>
 
-          {userName===""?
-           <Login handleLogin={handleLogin}/>
-        :<>
-        <Button
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          variant="outlined"
-          style={{ color: "white", marginTop: 5 }}
-          onClick={handleClick}
-        >
-          {userName}
-        </Button>
+          {userInfo.userName === "" ?
+            <Login handleLogin={handleLogin} />
+            : <>
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                variant="outlined"
+                style={{ color: "white", marginTop: 5 }}
+                onClick={handleClick}
+              >
+                {userInfo.userName}
+              </Button>
 
-        {/*after login, user can check profile, account and log out*/}
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleCloseLogin}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
-      </>}
-         
+              {/*after login, user can check profile, account and log out*/}
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleCloseLogin}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>}
 
 
-          {userName===""?
-          <Signup ifSignup={hasSignup}/>
-        : null }
-          
+
+          {userInfo.userName === "" ?
+            <Signup ifSignup={hasSignup} />
+            : null}
+
         </Toolbar>
       </AppBar>
     </div>
