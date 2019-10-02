@@ -80,7 +80,7 @@ export default function SellDetail({ userName }) {
             
     console.log(formData)
     // console.log(newPainting);
-    const result = await fetch('http://localhost:8000/paintings/add', {
+    const result = await fetch('http://34.68.103.79:8000/paintings/add', {
       method: 'POST',
       // body: JSON.stringify(newPainting),
       body: formData,

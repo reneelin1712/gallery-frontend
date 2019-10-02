@@ -32,7 +32,7 @@ export default class Detail extends React.Component {
   componentDidMount(){
     const name=this.state.name;
     console.log(this.props.match.params);
-    fetch(`http://104.154.46.103:8000/paintings/detail/${name}`)
+    fetch(`http://34.68.103.79:8000/paintings/detail/${name}`)
         .then(res => res.json())
         .then(data => {
          this.setState({price:data[0].price,
@@ -50,8 +50,8 @@ export default class Detail extends React.Component {
   //  const [info, setInfo]=useState({});
 
   // useEffect(() => {
-  //   // fetch(`http://localhost:8000/paintings/${id}`)
-  //   fetch(`http://localhost:8000/paintings/${name}`)
+  //   // fetch(`http://35.184.185.218:8000/paintings/${id}`)
+  //   fetch(`http://35.184.185.218:8000/paintings/${name}`)
   //     .then(res => res.json())
   //     .then(data => {
   //      setInfo(data)

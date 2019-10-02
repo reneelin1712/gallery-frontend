@@ -4,8 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../component/PaintingCard";
 import Themes from "../component/Themes";
-
-
+import Recommend from "../component/Recommend";
+import {local,gcp} from "../config"
 
 
 export default class Painting extends React.Component {
@@ -14,7 +14,7 @@ export default class Painting extends React.Component {
   // const [paintings, setPaintings]=useState([]);
 
   // useEffect(() => {
-  //   fetch("http://localhost:8000/paintings")
+  //   fetch("http://35.184.185.218:8000/paintings")
   //     .then(res => res.json())
   //     .then(data => {
   //      setPaintings(data)
@@ -22,17 +22,20 @@ export default class Painting extends React.Component {
   //     });
   // },[]);
     state={
-      paintings:[]
+      paintings:[],
+      recommendation:[]
     }
 
   componentDidMount(){
-    fetch("http://localhost:8000/paintings")
+    fetch(`${local}:8000/paintings`)
         .then(res => res.json())
         .then(data => {
          this.setState({paintings:data})
          console.log(this.state.paintings)
         });
+
   }
+
   render(){
     
   return (
@@ -42,6 +45,7 @@ export default class Painting extends React.Component {
        
         <Grid item xs={3} >
           <Themes />
+          <Recommend />
         </Grid>
         <Grid item xs={9}>
           <Grid container spacing={1} style={{ marginTop: 10 }}>
@@ -53,7 +57,7 @@ export default class Painting extends React.Component {
               <>
                <Grid item xs={4}>
               <Card name={painting.name} description={painting.description}
-              id={painting._id} imgUrl={painting.imageUrl}/>
+              id={painting._id} imgUrl={painting.imageUrl} pID={painting.pID}/>
             </Grid>
               </>)}
            

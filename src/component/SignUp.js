@@ -29,7 +29,7 @@ export default function SignUp({ifSignup}) {
       password: userPassword
     }
     console.log(newUser);
-    const result = await fetch('http://localhost:8000/signup ',{
+    const result = await fetch('http://34.68.103.79:8000/signup ',{
       method:'POST',
       body:JSON.stringify(newUser),
       headers:{

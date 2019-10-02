@@ -15,7 +15,8 @@ import { Link } from "react-router-dom";
 import Signup from "./SignUp";
 import Login from "./Login";
 import Sell from './Sell';
-import { UserContext } from '../Context'
+import { UserContext } from '../Context';
+import {local,gcp} from "../config"
 
 
 const useStyles = makeStyles(theme => ({
@@ -98,7 +99,7 @@ export default function NavBar({ onClickSignup }) {
       password: password
     }
 
-    fetch('http://localhost:8000/login', {
+    fetch(`${local}:8000/login`, {
       method: "POST",
       body: JSON.stringify(currentUser),
       headers: { 'Content-Type': 'application/json' }
@@ -109,7 +110,9 @@ export default function NavBar({ onClickSignup }) {
           setUserInfo({
             "userName": data.userName,
             "email": data.email,
-            "like": data.like
+            "like": data.like,
+            "rating": data.rating,
+            "userID": data.userID
           });
 
         // } else if(!data.like){

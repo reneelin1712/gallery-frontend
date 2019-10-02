@@ -11,6 +11,9 @@ import Image from "../images/gallery.jpeg";
 import { Link } from "react-router-dom";
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import { UserContext } from '../Context';
+import Rater from 'react-rater'
+import 'react-rater/lib/react-rater.css';
+import {local,gcp} from "../config"
 
 
 const useStyles = makeStyles({
@@ -26,7 +29,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function PaintingCard({ name, description, id, imgUrl }) {
+export default function PaintingCard({ name, description, id, imgUrl,pID }) {
   const classes = useStyles();
   const [likeColor, setLikeColor] = useState("");
   const [userInfo, setUserInfo] = useContext(UserContext);
@@ -41,7 +44,7 @@ export default function PaintingCard({ name, description, id, imgUrl }) {
     console.log(userInfo.like.find(like => like.paintingID === id));
     if (userInfo.like.find(like => like.paintingID === id)) {
       console.log("test")
-      fetch('http://localhost:8000/paintings/unlike', {
+      fetch('http://34.68.103.79:8000/paintings/unlike', {
         method: "POST",
         body: JSON.stringify(newLike),
         headers: { 'Content-Type': 'application/json' }
@@ -58,7 +61,7 @@ export default function PaintingCard({ name, description, id, imgUrl }) {
         ...userInfo,
         like:[...userInfo.like,[{paintingID:id,name:name}]]})
 
-      fetch('http://localhost:8000/paintings/like', {
+      fetch('http://34.68.103.79:8000/paintings/like', {
         method: "POST",
         body: JSON.stringify(newLike),
         headers: { 'Content-Type': 'application/json' }
@@ -71,10 +74,24 @@ export default function PaintingCard({ name, description, id, imgUrl }) {
     }
   }
 
-
-
-
-
+  const handleRating = (e)=>{console.log(e.rating)
+    if(!userInfo.userID){
+      alert("pls login");
+    }
+    const newRating = {
+      userID: userInfo.userID,
+      pID: pID,
+      rating: e.rating
+    }
+    fetch(`${local}:8000/paintings/rating`, {
+        method: "POST",
+        body: JSON.stringify(newRating),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(res => res.json())
+        .then(data => {
+          console.log(data);
+        })
+  }
 
 return (
   <Card className={classes.card}>
@@ -97,8 +114,15 @@ return (
       </CardActionArea>
     </Link>
     <CardActions>
-      <Button variant="contained" color="primary" className={classes.button}>
-        BUY NOW
+      {/* {console.log(userInfo.rating)} */}
+      {console.log(pID)}
+    <Rater total={5} rating={
+      userInfo.userName!==""?
+      userInfo.rating.find((rate)=>rate.pID===pID).rating
+      :0} 
+    onRate={handleRating}/>
+    <Button size="small" color="primary">
+        Learn More
         </Button>
 
       <Button>
@@ -113,9 +137,7 @@ return (
       {/* } */}
       </Button>
 
-      <Button size="small" color="primary">
-        Learn More
-        </Button>
+     
     </CardActions>
   </Card>
 );

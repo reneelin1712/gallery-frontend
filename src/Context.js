@@ -6,7 +6,8 @@ export const UserProvider = props =>{
     const [userInfo,setUserInfo] = React.useState({
         userName: "",
         userEmail:"",
-        like: []
+        like: [],
+        rating:[]
     })
    
 
