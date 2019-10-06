@@ -34,8 +34,10 @@ export default function Recommend() {
     fetch(`${local}:8000/recommendation/${userID}`)
         .then(res => res.json())
         .then(data => {
-          setRecommend({data})
-          console.log(data)
+          const recommendation = data.map(item => item.recommendation[0])
+          setRecommend(recommendation)
+          console.log(recommendation)
+          
         })
   },[userInfo])
 
@@ -45,16 +47,21 @@ export default function Recommend() {
       <h2>Recommendation for You</h2>
       <Divider />
       
-      <List component="nav" aria-label="main mailbox folders">
+      { recommend.length>0 ? 
+      recommend.map((recommendation,key) =>
+        <List key={key} component="nav" aria-label="main mailbox folders">
         <ListItem>
-          <ListItemText primary="sky" />
+          <ListItemText primary={recommendation.name} />
         </ListItem>
 
         <ListItem>
-        <img src={Image} className={classes.img}></img>
+        <img src={recommendation.imageUrl} className={classes.img}></img>
         </ListItem>
       
       </List>
+        )
+      :null
+      }
     </div>
   );
 }

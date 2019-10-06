@@ -117,7 +117,7 @@ return (
       {/* {console.log(userInfo.rating)} */}
       {console.log(pID)}
     <Rater total={5} rating={
-      userInfo.userName!==""?
+      userInfo.userName!=="" && userInfo.rating.find((rate)=>rate.pID===pID)?
       userInfo.rating.find((rate)=>rate.pID===pID).rating
       :0} 
     onRate={handleRating}/>
