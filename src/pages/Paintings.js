@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "../component/PaintingCard";
 import Themes from "../component/Themes";
 import Recommend from "../component/Recommend";
-import {local,gcp} from "../config"
+import {local,gcp,gcpInsGroup} from "../config"
 
 
 export default class Painting extends React.Component {
@@ -27,7 +27,7 @@ export default class Painting extends React.Component {
     }
 
   componentDidMount(){
-    fetch(`${local}:8000/paintings`)
+    fetch(`${gcpInsGroup}:8000/paintings`)
         .then(res => res.json())
         .then(data => {
          this.setState({paintings:data})

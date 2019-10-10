@@ -1,6 +1,6 @@
 import React from 'react';
 import PopularCard from "./PopularCard";
-import {local,gcp} from "../config"
+import {local,gcp,gcpInsGroup} from "../config"
 
 const styles = {
     popular:{
@@ -33,7 +33,7 @@ export default class Popular extends React.Component {
     }
 
     componentDidMount(){
-        fetch(`${local}:8000/paintings/popular`)
+        fetch(`${gcpInsGroup}:8000/paintings/popular`)
         .then(res => res.json())
         .then(data => {
          this.setState({popular:data})

@@ -13,7 +13,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import { UserContext } from '../Context';
 import Rater from 'react-rater'
 import 'react-rater/lib/react-rater.css';
-import {local,gcp} from "../config"
+import {local,gcp,gcpInsGroup} from "../config"
 
 
 const useStyles = makeStyles({
@@ -83,7 +83,7 @@ export default function PaintingCard({ name, description, id, imgUrl,pID }) {
       pID: pID,
       rating: e.rating
     }
-    fetch(`${local}:8000/paintings/rating`, {
+    fetch(`${gcpInsGroup}:8000/paintings/rating`, {
         method: "POST",
         body: JSON.stringify(newRating),
         headers: { 'Content-Type': 'application/json' }
@@ -130,7 +130,7 @@ return (
         <FavoriteBorder style={{color:setLikeColor}} className={classes.button} onClick={addLike} />
         : */}
         <FavoriteBorder color={
-          userInfo.like.find(like => like.paintingID === id) ?
+           userInfo.like && userInfo.like.find(like => like.paintingID === id)?
             "secondary"
             : "primary"
         } style={{color:likeColor}} className={classes.button} onClick={addLike} />

@@ -8,7 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import InboxIcon from "@material-ui/icons/Inbox";
 import Image from "../images/gallery.jpeg";
 import { UserContext } from '../Context';
-import {local,gcp} from "../config";
+import {local,gcp,gcpInsGroup} from "../config";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,9 +31,11 @@ export default function Recommend() {
 
   useEffect(()=>{
     const userID = userInfo.userID
-    fetch(`${local}:8000/recommendation/${userID}`)
+    console.log(userID)
+    fetch(`${gcpInsGroup}:8000/recommendation/${userID}`)
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           const recommendation = data.map(item => item.recommendation[0])
           setRecommend(recommendation)
           console.log(recommendation)

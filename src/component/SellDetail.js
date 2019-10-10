@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Image from "../images/gallery.jpeg";
+import {local,gcp,gcpInsGroup} from "../config"
 
 //JS CSS for this component
 const useStyles = makeStyles(theme => ({
@@ -80,7 +81,7 @@ export default function SellDetail({ userName }) {
             
     console.log(formData)
     // console.log(newPainting);
-    const result = await fetch('http://34.68.103.79:8000/paintings/add', {
+    const result = await fetch(`${gcpInsGroup}:8000/paintings/add`, {
       method: 'POST',
       // body: JSON.stringify(newPainting),
       body: formData,

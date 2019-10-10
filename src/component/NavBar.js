@@ -16,7 +16,7 @@ import Signup from "./SignUp";
 import Login from "./Login";
 import Sell from './Sell';
 import { UserContext } from '../Context';
-import {local,gcp} from "../config"
+import {local,gcp,gcpInsGroup} from "../config"
 
 
 const useStyles = makeStyles(theme => ({
@@ -99,7 +99,7 @@ export default function NavBar({ onClickSignup }) {
       password: password
     }
 
-    fetch(`${local}:8000/login`, {
+    fetch(`${gcpInsGroup}:8000/login`, {
       method: "POST",
       body: JSON.stringify(currentUser),
       headers: { 'Content-Type': 'application/json' }

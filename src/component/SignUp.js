@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import {local,gcp,gcpInsGroup} from "../config";
 
 export default function SignUp({ifSignup}) {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +30,7 @@ export default function SignUp({ifSignup}) {
       password: userPassword
     }
     console.log(newUser);
-    const result = await fetch('http://34.68.103.79:8000/signup ',{
+    const result = await fetch(`${gcpInsGroup}:8000/signup`,{
       method:'POST',
       body:JSON.stringify(newUser),
       headers:{
